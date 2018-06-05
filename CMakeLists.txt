@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+project(wumpus)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(wumpus src/main.cpp test/wumpus-tests/test-main.cpp)
