@@ -6,3 +6,7 @@
 
 # libraries
 */lib/*
+
+# CLion
+.idea/
+cmake-build-debug/
