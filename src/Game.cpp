@@ -2,29 +2,27 @@
 // Created by Chris Schick on 2018-06-05.
 //
 
-#include <iostream>
 #include "Game.h"
 
 namespace Wumpus {
 
     void Game::run()
     {
-        std::cout << "Hunt the Wumpus\n"
-                  << "===============\n"
-                  << "> ";
+        os << "Hunt the Wumpus\n"
+           << "===============\n";
 
         while (!game_over) {
+            os << "> ";
             std::string command;
-            std::getline(std::cin, command);
+            std::getline(is, command);
 
             if (command == "end game") {
                 game_over = true;
             } else {
-                std::cout << "You wanted to: " << command << '\n'
-                          << "but I don't know how to do that.\n";
+                os << "Unknown command\n";
             }
         }
 
-        std::cout << "Thank you for playing!\n";
+        os << "Thank you for playing!\n";
     }
 }

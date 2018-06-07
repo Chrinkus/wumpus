@@ -15,5 +15,5 @@ add_executable(wumpus
 add_executable(tests
         test/lib/catch.hpp
         test/wumpus-tests/test-main.cpp
-        test/wumpus-tests/test-Random_int.cpp src/Random_int.h
-        )
+        test/wumpus-tests/test-Random_int.cpp
+        src/Random_int.h)

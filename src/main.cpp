@@ -1,6 +1,6 @@
 #include "Game.h"
 
 int main() {
-    Wumpus::Game game;
+    auto game = Wumpus::Game{std::cin, std::cout};
     game.run();
 }
