@@ -30,18 +30,19 @@ namespace Wumpus {
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    const Room& Maze::get_room(int room_num) const
+    void Maze::add_room(Room r)
     {
-        return *(std::find_if(std::begin(rooms), std::end(rooms),
-                [room_num](const Room& r)
-                    { return r.get_room_number() == room_num; }));
+        rooms.emplace(r.get_room_number(), std::move(r));
     }
 
-    Room& Maze::edit_room(int room_num)
+    const Room& Maze::get_room(Key room_num) const
     {
-        return *(std::find_if(std::begin(rooms), std::end(rooms),
-                [room_num](Room& r)
-                    { return r.get_room_number() == room_num; }));
+        return rooms.at(room_num);
+    }
+
+    Room& Maze::edit_room(Key room_num)
+    {
+        return rooms.at(room_num);
     }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

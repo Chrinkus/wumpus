@@ -2,6 +2,7 @@
 // Created by Chris Schick on 2018-06-06.
 //
 
+#include <iostream>
 #include "../lib/catch.hpp"
 #include "../../src/Maze.h"
 

@@ -6,6 +6,7 @@
 #define WUMPUS_MAZE_H
 
 #include <vector>
+#include <unordered_map>
 #include <initializer_list>
 
 namespace Wumpus {
@@ -33,8 +34,6 @@ namespace Wumpus {
         /* Thinking ahead to how I would draw a map on the fly from a Room
          * object I would like to know how the adjacent rooms relate to a
          * given room. Top, mid, bot? Right, left.. even?
-         *
-         * Also, should room identifiers be strings?
          */
     };
 
@@ -42,17 +41,28 @@ namespace Wumpus {
         // A Maze is a collection of Rooms. It provides facilities for adding
         // rooms, the number of rooms and a const query.
     public:
+        using Key = int;                // clarifies 'int' arguments
+
         Maze() = default;
 
-        void add_room(Room r) { rooms.emplace_back(r); }
+        void add_room(Room r);
+
+        const Room& get_room(Key room_num) const;
+        Room& edit_room(Key room_num);
 
         size_t number_of_rooms() const { return rooms.size(); }
 
-        const Room& get_room(int room_num) const;
-        Room& edit_room(int room_num);
-
     private:
-        std::vector<Room> rooms;
+        std::unordered_map<Key,Room> rooms;
+
+        /* Used vector by default here but have realized that I do not ever
+         * traverse the Rooms of a Maze. The only time I do is when I want to
+         * grab a Room by id with std::find_if(). These two reasons suggest I
+         * would be better served using a hash table.
+         *
+         * sizeof(Room) == 40 bytes. Is this big? Would it be better to store
+         * std::unique_ptr<Room>'s instead?
+         */
     };
 
     class Layout_factory {
