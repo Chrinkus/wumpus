@@ -10,7 +10,10 @@ add_executable(wumpus
         src/Game.cpp
         src/Game.h
         src/Random_int.h
-        src/Maze.cpp src/Maze.h)
+        src/Maze.cpp
+        src/Maze.h
+        src/Actor.cpp
+        src/Actor.h)
 
 add_executable(tests
         test/lib/catch.hpp
@@ -19,4 +22,7 @@ add_executable(tests
         src/Random_int.h
         test/wumpus-tests/test-Maze.cpp
         src/Maze.h
-        src/Maze.cpp)
+        src/Maze.cpp
+        test/wumpus-tests/test-Actor.cpp
+        src/Actor.cpp
+        src/Actor.h test/wumpus-tests/test-Actor.cpp)

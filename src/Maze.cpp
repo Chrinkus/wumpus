@@ -6,7 +6,7 @@
 
 namespace Wumpus {
 
-    Room::Room(int number, std::initializer_list<int> adj)
+    Room::Room(Room_id number, std::initializer_list<Room_id> adj)
         : room_number{number}
     {
         adjacent_rooms.resize(adj.size());
@@ -14,7 +14,7 @@ namespace Wumpus {
         std::copy(std::begin(adj), std::end(adj), std::begin(adjacent_rooms));
     }
 
-    bool Room::is_adjacent_to(int room_num) const
+    bool Room::is_adjacent_to(Room_id room_num) const
     {
         auto it = std::find(std::begin(adjacent_rooms),
                             std::end(adjacent_rooms),
@@ -23,7 +23,7 @@ namespace Wumpus {
         return it == std::end(adjacent_rooms) ? false : true;
     }
 
-    const std::vector<int>& Room::get_adjacent_rooms() const
+    const std::vector<Room_id>& Room::get_adjacent_rooms() const
     {
         return adjacent_rooms;
     }
@@ -32,15 +32,15 @@ namespace Wumpus {
 
     void Maze::add_room(Room r)
     {
-        rooms.emplace(r.get_room_number(), std::move(r));
+        rooms.emplace(r.get_room_id(), std::move(r));
     }
 
-    const Room& Maze::get_room(Key room_num) const
+    const Room& Maze::get_room(Room_id room_num) const
     {
         return rooms.at(room_num);
     }
 
-    Room& Maze::edit_room(Key room_num)
+    Room& Maze::edit_room(Room_id room_num)
     {
         return rooms.at(room_num);
     }

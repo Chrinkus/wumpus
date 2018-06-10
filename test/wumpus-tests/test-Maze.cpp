@@ -10,7 +10,7 @@ TEST_CASE("Rooms can be created and queried", "[Room]") {
 
     auto r1 = Wumpus::Room{37, {5, 8, 13}};
 
-    REQUIRE(r1.get_room_number() == 37);
+    REQUIRE(r1.get_room_id() == 37);
     REQUIRE(r1.is_adjacent_to(8));
     REQUIRE(!r1.is_adjacent_to(2));
     REQUIRE(!r1.has_hazard());
@@ -62,7 +62,7 @@ SCENARIO("Mazes can be created and rooms added", "[Maze]") {
                 const auto& room = maze.get_room(2);
 
                 THEN("That room can be examined") {
-                    REQUIRE(room.get_room_number() == 2);
+                    REQUIRE(room.get_room_id() == 2);
                     REQUIRE(room.get_hazard() == Wumpus::Room::Hazard::none);
                     REQUIRE(room.is_adjacent_to(1));
                     REQUIRE(!room.is_adjacent_to(3));
@@ -104,7 +104,7 @@ SCENARIO("Mazes can be created by factories", "[Layout_factory]") {
                 const auto& room = maze->get_room(5);
 
                 THEN("That room can be examined") {
-                    REQUIRE(room.get_room_number() == 5);
+                    REQUIRE(room.get_room_id() == 5);
                     REQUIRE(room.get_hazard() == Wumpus::Room::Hazard::none);
                     REQUIRE(room.is_adjacent_to(6));
                     REQUIRE(!room.is_adjacent_to(13));
@@ -115,7 +115,7 @@ SCENARIO("Mazes can be created by factories", "[Layout_factory]") {
 
                     for (const auto& r : adj_rooms)
                         REQUIRE(maze->get_room(r)
-                                .is_adjacent_to(room.get_room_number()));
+                                .is_adjacent_to(room.get_room_id()));
                 }
             }
 

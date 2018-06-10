@@ -11,24 +11,26 @@
 
 namespace Wumpus {
 
+    using Room_id = int;
+
     class Room {
         // A Room is a location in a maze. It may have a hazard within it.
     public:
         enum class Hazard {none, bat, pit};
-        Room(int number, std::initializer_list<int> adj);
+        Room(int number, std::initializer_list<Room_id> adj);
 
-        int get_room_number() const { return room_number; }
+        Room_id get_room_id() const { return room_number; }
         bool has_hazard() const { return hazard != Hazard::none; }
 
         void set_hazard(Hazard h) { hazard = h; }
         Hazard get_hazard() const { return hazard; }
 
-        bool is_adjacent_to(int room_num) const;
-        const std::vector<int>& get_adjacent_rooms() const;
+        bool is_adjacent_to(Room_id room_num) const;
+        const std::vector<Room_id>& get_adjacent_rooms() const;
 
     private:
-        int room_number;
-        std::vector<int> adjacent_rooms;
+        Room_id room_number;
+        std::vector<Room_id> adjacent_rooms;
         Hazard hazard = Hazard::none;
 
         /* Thinking ahead to how I would draw a map on the fly from a Room
@@ -41,19 +43,17 @@ namespace Wumpus {
         // A Maze is a collection of Rooms. It provides facilities for adding
         // rooms, the number of rooms and a const query.
     public:
-        using Key = int;                // clarifies 'int' arguments
-
         Maze() = default;
 
         void add_room(Room r);
 
-        const Room& get_room(Key room_num) const;
-        Room& edit_room(Key room_num);
+        const Room& get_room(Room_id room_num) const;
+        Room& edit_room(Room_id room_num);
 
         size_t number_of_rooms() const { return rooms.size(); }
 
     private:
-        std::unordered_map<Key,Room> rooms;
+        std::unordered_map<Room_id,Room> rooms;
 
         /* Used vector by default here but have realized that I do not ever
          * traverse the Rooms of a Maze. The only time I do is when I want to
