@@ -3,7 +3,7 @@
 //
 
 #include "../lib/catch.hpp"
-#include "../../src/Random_int.h"
+#include "../../src/Random_utils.h"
 
 class Less_than {
 public:
@@ -27,7 +27,7 @@ private:
 
 SCENARIO("Random_int produces values in a range", "[Random_int]") {
 
-    GIVEN("A Random_int object") {
+    GIVEN("A Random_utils object") {
         auto ri = Random_int{};
 
         WHEN("1-10 is passed") {
@@ -57,6 +57,37 @@ SCENARIO("Random_int produces values in a range", "[Random_int]") {
                 REQUIRE(std::find_if(std::begin(vi), std::end(vi),
                                      More_than(max)) == vi.end());
             }
+        }
+    }
+}
+
+SCENARIO("Assignment table allows random selection", "[Assignment_table]") {
+
+    GIVEN("A default assignment table") {
+        const auto initial_size = size_t{10};
+        auto ass_tab = Assignment_table{initial_size};
+
+        const auto& view = ass_tab.view_table();
+
+        REQUIRE(view.size() == initial_size);
+
+        WHEN("A value is requested") {
+            auto val1 = ass_tab.get_value();
+
+            THEN("That value is in the expected range") {
+                REQUIRE(val1 < initial_size);   // expected max based on size
+                REQUIRE(val1 >= 0);             // expected min based on default
+            }
+
+            THEN("The table's size shrinks by one") {
+                REQUIRE(view.size() == initial_size - 1);
+            }
+
+            THEN("That value is no longer in the table") {
+                auto it = std::find(std::begin(view), std::end(view), val1);
+                REQUIRE(it == view.end());
+            }
+
         }
     }
 }
