@@ -9,7 +9,6 @@
 
 #include <vector>
 #include <initializer_list>
-#include <iostream>
 
 namespace Wumpus {
 
@@ -28,7 +27,7 @@ namespace Wumpus {
         void set_hazard(Hazard h) { hazard = h; }
 
         bool is_adjacent_to(Room_id room_num) const;
-        const std::vector<Room_id>& get_adjacent_rooms() const;
+        const auto& get_adjacent_rooms() const { return adjacent_rooms; }
 
     private:
         Room_id room_number;

@@ -22,9 +22,4 @@ namespace Wumpus {
 
         return it == std::end(adjacent_rooms) ? false : true;
     }
-
-    const std::vector<Room_id>& Room::get_adjacent_rooms() const
-    {
-        return adjacent_rooms;
-    }
 }
