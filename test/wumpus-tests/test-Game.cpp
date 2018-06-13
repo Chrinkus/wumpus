@@ -2,38 +2,66 @@
 // Created by Chris Schick on 2018-06-06.
 //
 
-/* Omitted for now as Game is not even minimally set
+/*
+#include <sstream>
 #include "../lib/catch.hpp"
 #include "../../src/Game.h"
-#include <fstream>
-#include <sstream>
 
-SCENARIO("Game command loop handles unrecognized commands", "[Game]") {
-    const auto unknown = "Unknown command";
-    const auto eog = "Thank you for playing!";
+TEST_CASE("A Command parses expected input as expected", "[Command]") {
 
-    GIVEN("A game is initialized with streams") {
-        auto istr = std::stringstream{};
-        auto ostr = std::stringstream{};
+    std::istringstream is1 {"move 3"};
+    auto cmd1 = Wumpus::Command{is1};
+    CHECK(cmd1.type == Wumpus::Command::Type::move);
+    REQUIRE(cmd1.params.size() == 1);
 
-        istr << "game over\n"
-             << "quit already\n"
-             << "home screen\n"
-             << "end game\n";
+    std::istringstream is2 {"shoot 1 2 3"};
+    auto cmd2 = Wumpus::Command{is2};
+    CHECK(cmd2.type == Wumpus::Command::Type::shoot);
+    REQUIRE(cmd2.params.size() == 3);
 
-        auto game = Wumpus::Game{istr, ostr};
+    std::istringstream is3 {"help"};
+    auto cmd3 = Wumpus::Command{is3};
+    CHECK(cmd3.type == Wumpus::Command::Type::help);
+    REQUIRE(cmd3.params.empty());
 
-        WHEN("The game loop runs through the bad input") {
-            game.run();
-
-            std::vector<std::string> vs;
-            for (std::string line; std::getline(ostr, line); )
-                vs.push_back(line);
-
-            THEN("The loop runs until 'end game' is input") {
-                REQUIRE(vs.back() == eog);
-            }
-        }
-    }
+    std::istringstream is4 {"quit"};
+    auto cmd4 = Wumpus::Command{is4};
+    CHECK(cmd4.type == Wumpus::Command::Type::quit);
+    REQUIRE(cmd4.params.empty());
 }
-*/
+
+TEST_CASE("A Command parses unexpected input as errors", "[Command]") {
+
+    std::istringstream is1 {""};
+    auto cmd1 = Wumpus::Command{is1};
+    CHECK(cmd1.type == Wumpus::Command::Type::error);
+
+    std::istringstream is2 {"shoop 2 4 6"};
+    auto cmd2 = Wumpus::Command{is2};
+    CHECK(cmd2.type == Wumpus::Command::Type::error);
+
+    std::istringstream is3 {"move move"};
+    auto cmd3 = Wumpus::Command{is3};
+    CHECK(cmd3.type == Wumpus::Command::Type::error);
+}
+
+TEST_CASE("A Command parses acceptable unexpected inputs correctly",
+          "[Command]") {
+
+    std::istringstream is1 {"move 1 2 3 5 8"};
+    auto cmd1 = Wumpus::Command{is1};
+    CHECK(cmd1.type == Wumpus::Command::Type::move);
+
+    std::istringstream is2 {"shoot 1 2 3 5 8"};
+    auto cmd2 = Wumpus::Command{is2};
+    CHECK(cmd2.type == Wumpus::Command::Type::shoot);
+
+    std::istringstream is3 {"help 1 2 3 5 8"};
+    auto cmd3 = Wumpus::Command{is3};
+    CHECK(cmd3.type == Wumpus::Command::Type::help);
+
+    std::istringstream is4 {"quit 1 2 3 5 8"};
+    auto cmd4 = Wumpus::Command{is4};
+    CHECK(cmd4.type == Wumpus::Command::Type::quit);
+}
+ */
