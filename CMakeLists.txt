@@ -20,7 +20,7 @@ add_executable(wumpus
 add_executable(tests
         test/lib/catch.hpp
         test/wumpus-tests/test-main.cpp
-        test/wumpus-tests/test-Random_int.cpp
+        test/wumpus-tests/test-Random_utils.cpp
         src/Random_utils.h
         src/Random_utils.cpp
         test/wumpus-tests/test-Maze.cpp

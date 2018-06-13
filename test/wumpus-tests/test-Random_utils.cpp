@@ -65,7 +65,8 @@ SCENARIO("Assignment table allows random selection", "[Assignment_table]") {
 
     GIVEN("A default assignment table") {
         const auto initial_size = size_t{10};
-        auto ass_tab = Assignment_table{initial_size};
+        const auto initial_value = int{0};
+        auto ass_tab = Assignment_table<int>{initial_size, initial_value};
 
         const auto& view = ass_tab.view_table();
 
