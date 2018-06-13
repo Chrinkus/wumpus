@@ -30,7 +30,8 @@ namespace Wumpus {
         maze = maze_factory.create_maze();
 
         // create vector of Room_id's to randomly assign
-        auto room_assignment = Assignment_table(maze->number_of_rooms(), 1);
+        auto room_assignment =
+                Assignment_table<Room_id>(maze->number_of_rooms(), 1);
 
         // Player
         auto player_room = room_assignment.get_value(1, 5);
