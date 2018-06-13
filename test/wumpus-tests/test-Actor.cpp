@@ -17,7 +17,7 @@ SCENARIO("A Player can be created and manipulated", "[Player]") {
         REQUIRE(player.has_arrow());
 
         WHEN("The player is moved") {
-            player.move_to(room2);
+            player.move_to(room2.get_room_id());
 
             THEN("The player's current_room changes") {
 
