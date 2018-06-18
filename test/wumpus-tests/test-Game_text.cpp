@@ -7,34 +7,29 @@
 
 using namespace Wumpus;
 
-TEST_CASE("Nodes can be created and compared", "[Node]") {
-    auto n1 = Node{"alpha", "Hey I'm the alpha node"};
-    auto n2 = Node{"beta", "Don't mind me, a beta node"};
-    auto n3 = Node{"alpha", "Uh oh.. another alpha.."};
+TEST_CASE("Game_text object can be created and text added", "[Game_text]") {
 
-    REQUIRE(n1 != n2);
-    REQUIRE(n1 == n3);
+    auto gt = Game_text{};
+    gt.add("alpha", "Never gonna give you up");
+
+    REQUIRE(gt["alpha"] == "Never gonna give you up");
 }
 
-/*
-SCENARIO("Nodes can have children", "[Node]") {
+SCENARIO("Game_text object can be filled from a file", "[Game_text]") {
 
-    GIVEN("A node object") {
-        auto n1 = Node{"Days of Week"};
+    GIVEN("A Game_text object and a file name") {
 
-        REQUIRE(!n1.get_children());        // empty unique_ptr's are false
+        auto gt = Game_text{};
+        auto file = "../src/wumpus-text.txt";
 
-        WHEN("A child is added") {
+        WHEN("The fill operation is called") {
 
-            n1.add_child(Node{"mon", "Monday"});
+            gt.fill(file);
 
-            THEN("That child can be accessed") {
+            THEN("The Game_text object has text from the file") {
 
-                const auto& kids = n1.get_children();
-
-                REQUIRE(!kids->empty());
+                REQUIRE(gt["splash-title"] == "Hunt the Wumpus");
             }
         }
     }
 }
-*/

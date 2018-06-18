@@ -57,6 +57,9 @@ namespace Wumpus {
             auto room = room_assignment.get_value();
             maze->edit_room(room).set_hazard(Room::Hazard::pit);
         }
+
+        // Game Text
+        g_text.fill("../src/wumpus-text.txt");
     }
 
     bool Game::validate_adjacent(Room_id source, Room_id destination) const
@@ -82,8 +85,9 @@ namespace Wumpus {
         auto player_room = maze->get_room(player->get_current_room());
         const auto& adjacents = player_room.get_adjacent_rooms();
 
-        os << "You are in room " << player_room.get_room_id() << ".\n"
-           << "There are doors to rooms "
+        os << g_text["status-room"] << ' '
+           << player_room.get_room_id() << ".\n"
+           << g_text["status-doors"] << ' '
            << adjacents[0] << ", "
            << adjacents[1] << " & "
            << adjacents[2] << ".\n";
@@ -106,26 +110,33 @@ namespace Wumpus {
         }
 
         if (bat)
-            os << "You hear intermittent flapping..\n";
+            os << g_text["hint-bat"] << '\n';
         if (pit)
-            os << "You feel a damp breeze..\n";
+            os << g_text["hint-pit"] << '\n';
 
         // Check Wumpus
         auto it = std::find(std::begin(adjacents), std::end(adjacents),
                             wumpus->get_current_room());
         if (it != std::end(adjacents))
-            os << "You smell the Wumpus..\n";
+            os << g_text["hint-wumpus"] << '\n';
 
-        os << "What is your command?\n";
+        os << g_text["prompt-command"] << '\n';
     }
 
     void Game::run()
     {
-        os << "Hunt the Wumpus\n"
-           << "===============\n";
+        auto title = g_text["splash-title"];
+
+        auto underline = std::string{};
+        for (const auto c : title)
+            underline += '=';
+
+        os << title << '\n'
+           << underline << "\n\n"
+           << g_text["splash-story"] << '\n';
 
         while (!game_over) {
-            debug();
+            //debug();
             print_status();
             auto line = std::string{};
             std::getline(is, line);
@@ -160,7 +171,7 @@ namespace Wumpus {
                 return trigger_hazard(destination);
         }
         else
-            os << "That room is not connected to this one.\n";
+            os << g_text["fail-move"] << '\n';
     }
 
     void Game::trigger_hazard(Room_id room_id)
@@ -169,18 +180,18 @@ namespace Wumpus {
 
         switch (hazard) {
             case Room::Hazard::bat:
-                os << "A giant bat grabs you by the shoulder and takes off!\n"
-                   << "The winged beast drops you into another room\n";
+                os << g_text["result-move-bat"] << '\n';
                 player->move_to(randint(1, 20));
                 trigger_hazard(player->get_current_room());
                 break;
             case Room::Hazard::pit:
-                os << "You fall into a pit and die horribly..\n";
+                os << g_text["result-move-pit"] << '\n';
                 game_over = true;
                 break;
             case Room::Hazard::none:
-                os << "You land safely and collect yourself.\n";
+                // get here after bat drops you
                 if (check_wumpus())
+                    os << g_text["result-move-wumpus"] << '\n';
                     return wumpus_room();
                 break;
         }
@@ -188,7 +199,7 @@ namespace Wumpus {
 
     void Game::no_arrows() const
     {
-        os << "You reach for an arrow but your quiver is empty.\n";
+        os << g_text["fail-shoot"] << '\n';
     }
 
     void Game::shoot_cmd(std::vector<Room_id>& target_rooms)
@@ -216,59 +227,50 @@ namespace Wumpus {
 
     void Game::hit_wumpus()
     {
-        os << "Congratulations! You've slain the Wumpus!\n";
+        os << g_text["result-hit-wumpus"] << '\n'
+           << g_text["victory"] << '\n';
         game_over = true;
     }
 
     void Game::miss_wumpus()
     {
         // move wumpus randomly
-        os << "You hear your arrow strike a distant wall..\n"
-           << "The sharp sound awakes the wumpus..\n"
-           << "The beast lumbers to an adjacent room..\n";
+        os << g_text["result-miss-wake"] << '\n';
 
         auto adj_rooms = maze->get_room(wumpus->get_current_room())
                 .get_adjacent_rooms();
         wumpus->move_to(adj_rooms[randint(0, adj_rooms.size() - 1)]);
 
         if (check_wumpus()) {
+            os << g_text["result-miss-enter"] << '\n';
             return wumpus_room();
         }
         else {
-            os << "..and falls back asleep.\n";
+            os << g_text["result-miss-sleep"] << '\n';
         }
 
     }
 
     void Game::wumpus_room()
     {
-        os << "YOU STARE IN HORROR AT THE FOUL BEAST IN THE ROOM.\n"
-           << "You try to knock an arrow before he sets upon you..\n"
-           << "But alas you are too slow. The beast consumes you.\n"
-           << "You are dead.\n";
+        os << g_text["death-wumpus"] << '\n';
         game_over = true;
     }
 
     void Game::quit_cmd()
     {
-        os << "Thank you for playing!\n";
+        os << g_text["quit"] << '\n';
         game_over = true;
     }
 
     void Game::help_cmd() const
     {
-        os << "Wumpus Help:\n"
-           << "To move the character type 'move' followed by the desired room\n"
-           << "  ex: move 13 (move to room 13)\n"
-           << "To shoot an arrow type 'shoot' followed by up to 3 rooms.\n"
-           << "Arrow paths may bend so long as rooms are connected.\n"
-           << "  ex: shoot 2 10 9 (shoot arrow through rooms 2 10 and 9)\n"
-           << "To quit the game at any time type 'quit'\n";
+        os << g_text["help"] << '\n';
     }
 
     void Game::error_cmd() const
     {
-        os << "Unrecognized command, try again or type 'help'\n";
+        os << g_text["fail-command"] << '\n';
     }
 
     void Game::debug() const

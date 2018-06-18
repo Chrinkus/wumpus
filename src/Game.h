@@ -11,6 +11,7 @@
 #include "Maze.h"
 #include "Actor.h"
 #include "Random_utils.h"
+#include "Game_text.h"
 
 namespace Wumpus {
 
@@ -63,6 +64,8 @@ namespace Wumpus {
         std::unique_ptr<Maze> maze;
         std::unique_ptr<Player> player;
         std::unique_ptr<Wumpus> wumpus;
+
+        Game_text g_text;
     };
 }
 

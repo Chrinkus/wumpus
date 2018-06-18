@@ -7,20 +7,16 @@ prompt-command: What is your command?
 fail-move: That room is not connected to this one.
 fail-shoot: You reach for an arrow but your quiver is empty.
 result-miss-wake: You let an arrow fly and listen.. you hear it strike a wall. The sharp sound wakes the horrible Wumpus! The cave echoes as it lumbers to another room..
-result-miss-death: YOU STARE IN HORROR AS THE AWFUL BEAST ENTERS YOUR ROOM!!
+result-miss-enter: YOU STARE IN HORROR AS THE AWFUL BEAST ENTERS YOUR ROOM!!
 result-miss-sleep: ..and falls back asleep.
-result-move-bat: A giant bat grabs you by the shoulder and takes off! The winged beast carries you a way and drops you into a room.
+result-move-bat: A giant bat grabs you by the shoulder and takes off! The winged beast carries you a way and drops you into another room. You pick yourself up and examine your surroundings.
 result-move-pit: As you step into the room you notice a giant pit before you. Instinctively you step back but the sudden movement causes the ground to crumble a little beneath your feet. You drop to the receding ground and claw desperately for something to save you. Nothing. You fall into the darkness and die alone.
-result-move-wumpus:
+result-move-wumpus: As you enter the room, the hot scent of beast overwhelms you.
 result-hit-wumpus: As you loose your arrow into the darkness you hold your breath.. you are rewarded with the soft meaty-sound of a successful hit! The monster's death groan fills the cave!
 victory: Congratulations! You've slain the Wumpus!
+death-wumpus: You try to knock an arrow before the horrible Wumpus sets upon you. Alas your hand trembles and the arrow falls to the floor. With horror you realize that the beast does not intend to eat you right away but instead store you in the greasy, hairy folds of it's body. As he stuffs you in next to the corpse of what seems to be a dog, you try to scream but are immediately muffled and then crushed. You die.
 quit: Thank you for playing!
-help-0: Wumpus Help:
-help-1: To move the character type 'move' followed by the destination room:
-help-2: - ex: move 13 (move to room 13)
-help-3: To shoot an arrow type 'shoot' followed by up to 3 connected rooms:
-help-4: - ex: shoot 2 10 9 (shoot an arrow to travel through rooms 2, 10 and 9)
-help-5: To quit the game at any time type 'quit'
+help: Wumpus Help:\nTo move the character type 'move' followed by the destination room:\n- ex: move 13 (move to room 13)\nTo shoot an arrow type 'shoot' followed by up to 3 connected rooms:\n- ex: shoot 2 10 9 (shoot an arrow to travel through rooms 2, 10 and 9)\nTo quit the game at any time type 'quit'
 fail-command: Unrecognized command, try again or type 'help'
 status-room: You are in room
 status-doors: There are doors to rooms
