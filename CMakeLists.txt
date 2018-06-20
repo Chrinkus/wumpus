@@ -37,4 +37,7 @@ add_executable(tests
         test/wumpus-tests/test-Room.cpp
         src/Game_text.h
         src/Game_text.cpp
-        test/wumpus-tests/test-Game_text.cpp)
+        test/wumpus-tests/test-Game_text.cpp
+        src/Text_tree.cpp
+        src/Text_tree.h
+        test/wumpus-tests/test-Text_tree.cpp)
